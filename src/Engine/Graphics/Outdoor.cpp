@@ -2156,7 +2156,7 @@ void ODM_ProcessPartyActions() {
     bool partySlopeMod{ false };
     if (partyNotTouchingFloor && !pParty->bFlying) {  // add gravity
         partyInputZSpeed += (-(pEventTimer->uTimeElapsed * GetGravityStrength()) << 1);
-    } else if (!partyNotTouchingFloor) {
+    } else if (!partyNotTouchingFloor && pParty->uFallSpeed != 1000) {
         if (!modelStandingOnPID) {
             // rolling down the hill
             // how it's done: you get a little bit pushed in the air along
