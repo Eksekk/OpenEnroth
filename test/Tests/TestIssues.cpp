@@ -27,7 +27,7 @@ static int partyItemCount() {
 }
 
 GAME_TEST(Items, GenerateItem) {
-    // Calling GenerateItem 100 times shouldn't assert. Item enchantment types should be in [0, 23].
+    // Calling GenerateItem 100 times shouldn't assert. Item enchantment types should be in [0, 24].
     std::initializer_list<ITEM_TREASURE_LEVEL> levels = {
         ITEM_TREASURE_LEVEL_1, ITEM_TREASURE_LEVEL_2, ITEM_TREASURE_LEVEL_3,
         ITEM_TREASURE_LEVEL_4, ITEM_TREASURE_LEVEL_5, ITEM_TREASURE_LEVEL_6
@@ -38,7 +38,9 @@ GAME_TEST(Items, GenerateItem) {
         for (ITEM_TREASURE_LEVEL level : levels) {
             pItemTable->GenerateItem(level, 0, &item);
             EXPECT_GE(item.uEnchantmentType, 0);
-            EXPECT_LE(item.uEnchantmentType, 23);
+            if (!item.isPotion() || item.uItemID == ITEM_POTION_BOTTLE) { // enchantment type for potions is potion strength
+                EXPECT_LE(item.uEnchantmentType, 24);
+            }
         }
     }
 }
